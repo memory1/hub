@@ -14,7 +14,7 @@ def print_students_titlecase():
 
 
 def add_student(name, student_id=332):
-	student = {"name": name, "student_id": student_id}
+	student = {"name": name,"student_id": student_id}
 	students.append(student)
 
 
@@ -45,5 +45,4 @@ student_id = input("Enter student ID: ")
 
 add_student(student_name, student_id)
 save_file(student_name)
-
 
