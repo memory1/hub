@@ -13,7 +13,7 @@ def print_students_titlecase():
 	print(students_titlecase)
 
 
-def add_student(name, student_id=332):
+def add_student(name, student_id=332):gi
 	student = {"name": name, "student_id": student_id}
 	students.append(student)
 
