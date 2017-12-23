@@ -1,4 +1,3 @@
-
-from classes import HighSchoolStudent
+from classes import *
 james = HighSchoolStudent("james")
 print(james.get_name_capitalize())
