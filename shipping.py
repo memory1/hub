@@ -27,7 +27,11 @@ class ShippingContainer:
         self.bic = self._make_bic_code(owner_code = owner_code, serial= ShippingContainer._get_next_serial())
     @property
     def volume_ft3(self):
-        return  ShippingContainer.HEIGHT_FT * ShippingContainer.WIDTH_FT * self.length_ft
+        return self._calc_volume()
+
+    def _calc_volume(self):
+        return ShippingContainer.HEIGHT_FT * ShippingContainer.WIDTH_FT * self.length_ft
+
 
 class RefrigeratedShippingContainer(ShippingContainer):
 
@@ -59,6 +63,9 @@ class RefrigeratedShippingContainer(ShippingContainer):
 
     @celsius.setter
     def celsius(self, value):
+        self._set_celsius(value)
+
+    def _set_celsius(self, value):
         if value > RefrigeratedShippingContainer.MAX_CELSIUS:
             raise ValueError("Temperature too hot!")
         self._celsius = value
@@ -71,15 +78,14 @@ class RefrigeratedShippingContainer(ShippingContainer):
     def fahrenheit(self,value):
         self.celsius = RefrigeratedShippingContainer._f_to_c(value)
 
-    @property
-    def volume_ft3(self):
-        return super().volume_ft3 - RefrigeratedShippingContainer.FRIGE_VOLUME_FT3
+    def _calc_volume(self):
+        return super()._calc_volume() - RefrigeratedShippingContainer.FRIGE_VOLUME_FT3
 
 class HeatedRefrigeratedShippingContainer(RefrigeratedShippingContainer):
     MIN_CELSIUS = -20.0
 
     @RefrigeratedShippingContainer.celsius.setter
-    def celsius(self,value):
+    def _set_celsius(self, value):
         if value < HeatedRefrigeratedShippingContainer.MIN_CELSIUS:
             raise ValueError("Temperature too cold!")
-        RefrigeratedShippingContainer.celsius.fset(self,value)
+        super()._set_celsius(value)
