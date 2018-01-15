@@ -35,6 +35,7 @@ def main():
         print(a)
     except TriangleError as e:
         try:
+            print('1.{0}'.format(e))
             print(e, file=sys.stdin)
         except io.UnsupportedOperation as f:
             print(e)
