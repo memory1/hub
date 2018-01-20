@@ -1,3 +1,4 @@
+
 from bisect import bisect_left
 from collections.abc import Sequence, Set
 from itertools import chain
@@ -26,34 +27,32 @@ class SortedSet(Sequence, Set):
         return SortedSet(result) if isinstance(index, slice) else result
 
     def __repr__(self):
-        return "SortedSet({})".format(
-            repr(self._items) if self._items else ''
-        )
+        return "SortedSet({})".format(repr(self._items) if self._items else '')
 
     def __eq__(self, rhs):
         if not isinstance(rhs, SortedSet):
-            return NotImplemented
+            return False
         return self._items == rhs._items
 
-    def __ne__(self, rhs):
-        if not isinstance(rhs, SortedSet):
-            return NotImplemented
-        return self._items != rhs._items
+    def _is_unique_and_sorted(self):
+        return all(self[i] < self[i + 1] for i in range(len(self) - 1))
 
     def index(self, item):
+        assert self._is_unique_and_sorted()
         index = bisect_left(self._items, item)
-        if (index != len(self._items)) and (self._items[index] == item):
+        if (index != len(self._items)) and self._items[index] == item:
             return index
         raise ValueError("{} not found".format(repr(item)))
 
     def count(self, item):
-        return int(item in self)
+        assert self._is_unique_and_sorted()
+        return int(item in self._items)
 
     def __add__(self, rhs):
         return SortedSet(chain(self._items, rhs._items))
 
     def __mul__(self, rhs):
-        return self if rhs > 0 else SortedSet()
+        return SortedSet(self) if rhs > 0 else SortedSet()
 
     def __rmul__(self, lhs):
         return self * lhs
@@ -75,6 +74,4 @@ class SortedSet(Sequence, Set):
 
     def difference(self, iterable):
         return self - SortedSet(iterable)
-
-
 

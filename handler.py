@@ -1,4 +1,7 @@
+#!/usr/bin/env python3
+
 from random import randrange
+
 
 def main():
     number = randrange(100)
@@ -8,8 +11,8 @@ def main():
         except ValueError:
             continue
         if guess == number:
-            print('You win!')
+            print("You win!")
             break
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
