@@ -44,7 +44,7 @@ class SortedSet(Sequence, Set):
             return index
         raise ValueError("{} not found".format(repr(item)))
 
-    def count(self, item):
+    def count(self, item: object) -> object:
         assert self._is_unique_and_sorted()
         return int(item in self._items)
 
